@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f172a">
+<title>Network Closet Assessment</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script>
+(function(){function L(){return (typeof PptxGenJS!=='undefined')||(typeof pptxgen!=='undefined');}
+var fb=['https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/dist/pptxgen.bundle.js','https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js','https://unpkg.com/pptxgenjs@3.12.0/dist/pptxgen.bundle.js'];
+var i=0;function n(){if(L()||i>=fb.length)return;var s=document.createElement('script');s.src=fb[i++];s.onerror=n;document.head.appendChild(s);}
+window.addEventListener('DOMContentLoaded',function(){if(!L())n();});})();
+</script>
+<style>
+:root{--bg:#0f172a;--surface:#1e293b;--surface2:#273449;--surface3:#2f3f58;--border:rgba(148,163,184,0.15);--border2:rgba(148,163,184,0.28);--border3:rgba(148,163,184,0.45);--text:#f1f5f9;--muted:#94a3b8;--hint:#64748b;--accent:#10b981;--accent-dim:rgba(16,185,129,0.13);--accent-border:rgba(16,185,129,0.38);--warn:#f59e0b;--warn-dim:rgba(245,158,11,0.13);--warn-border:rgba(245,158,11,0.38);--danger:#ef4444;--danger-dim:rgba(239,68,68,0.13);--danger-border:rgba(239,68,68,0.38);--brand:#b91c1c;--brand-dim:rgba(185,28,28,0.15);--brand-border:rgba(185,28,28,0.4);--floor:#6366f1;--floor-dim:rgba(99,102,241,0.15);--floor-border:rgba(99,102,241,0.45);--radius:12px;--radius-sm:8px;--radius-xs:6px;--safe-bottom:env(safe-area-inset-bottom,0px);}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;font-size:16px;overscroll-behavior:none}
+body{display:flex;flex-direction:column}
+.app-header{background:var(--surface);border-bottom:0.5px solid var(--border);padding:13px 16px 11px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:10px}
+.app-header-text{flex:1;min-width:0}
+.app-header h1{font-size:16px;font-weight:600;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-header .subtitle{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mode-btn{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:7px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+.mode-btn.edit-mode{background:var(--warn-dim);border-color:var(--warn-border);color:var(--warn)}
+.mode-btn i{font-size:15px}
+.nav-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border-bottom:0.5px solid var(--border);padding:8px 12px;overflow:hidden}
+.nav-label{font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--hint);text-transform:uppercase;flex-shrink:0;width:40px}
+.chips{display:flex;gap:7px;overflow-x:auto;flex:1;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.chips::-webkit-scrollbar{height:0}
+.chip{display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:20px;background:var(--surface2);border:0.5px solid var(--border2);color:var(--muted);font-size:13px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.chip .pct{font-size:11px;opacity:.8}
+.chip .chip-edit{font-size:14px;opacity:.7}
+.floor-chip.active{background:var(--floor-dim);border-color:var(--floor-border);color:#c7d2fe}
+.room-chip.active{background:var(--brand-dim);border-color:var(--brand-border);color:#fca5a5}
+.chip-add{display:flex;align-items:center;gap:4px;padding:6px 11px;border-radius:20px;background:transparent;border:0.5px dashed var(--border3);color:var(--muted);font-size:13px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.chip-add i{font-size:15px}
+.progress-bar{height:3px;background:var(--border)}
+.progress-fill{height:3px;background:var(--accent);transition:width .4s ease}
+.stats-strip{display:flex;background:var(--surface);border-bottom:0.5px solid var(--border)}
+.stat-cell{flex:1;padding:9px 6px;text-align:center;border-right:0.5px solid var(--border)}
+.stat-cell:last-child{border-right:none}
+.stat-cell .num{font-size:17px;font-weight:600;line-height:1}
+.stat-cell .lbl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.edit-banner{display:none;background:var(--warn-dim);border-bottom:0.5px solid var(--warn-border);padding:9px 16px;font-size:12px;color:var(--warn);align-items:center;gap:8px}
+.edit-banner.show{display:flex}
+.edit-banner i{font-size:15px;flex-shrink:0}
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 12px calc(76px + var(--safe-bottom))}
+.section{background:var(--surface);border-radius:var(--radius);border:0.5px solid var(--border);margin-bottom:10px;overflow:hidden}
+.section.editing{border-color:var(--warn-border)}
+.sec-header{display:flex;align-items:center;gap:9px;padding:13px 14px;cursor:pointer;min-height:54px;-webkit-user-select:none;user-select:none}
+.sec-header:active{background:var(--surface2)}
+.sec-icon-wrap{font-size:19px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);background:var(--surface2);flex-shrink:0}
+.sec-icon-input{font-size:19px;width:42px;height:38px;background:var(--surface2);border:1px solid var(--warn-border);border-radius:var(--radius-sm);text-align:center;color:var(--text)}
+.sec-title-wrap{flex:1;min-width:0}
+.sec-title{font-size:15px;font-weight:500}
+.sec-title-input{font-size:15px;font-weight:500;background:transparent;border:none;border-bottom:1px solid var(--warn-border);color:var(--text);width:100%;outline:none;padding-bottom:2px}
+.sec-badge{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--surface2);color:var(--muted);border:0.5px solid var(--border2);white-space:nowrap}
+.sec-badge.done{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-border)}
+.sec-chev{color:var(--muted);font-size:13px;transition:transform .2s;flex-shrink:0}
+.sec-chev.open{transform:rotate(180deg)}
+.sec-edit-bar{display:none;align-items:center;gap:8px;padding:8px 14px;border-top:0.5px solid var(--warn-border);background:var(--surface2)}
+.sec-edit-bar.show{display:flex}
+.sec-edit-btn{display:flex;align-items:center;gap:5px;font-size:12px;padding:6px 10px;border-radius:var(--radius-xs);border:0.5px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer}
+.sec-edit-btn:active{background:var(--bg)}
+.sec-edit-btn.del{border-color:var(--danger-border);color:var(--danger)}
+.sec-edit-btn i{font-size:14px}
+.sec-edit-btn-spacer{flex:1}
+.sec-items{border-top:0.5px solid var(--border)}
+.item{border-bottom:0.5px solid var(--border)}
+.item:last-child{border-bottom:none}
+.item-row{display:flex;align-items:flex-start;gap:11px;padding:13px 14px;min-height:52px}
+.item-row.check-mode{cursor:pointer}
+.item-row.check-mode:active{background:var(--surface2)}
+.drag-handle{flex-shrink:0;color:var(--hint);font-size:18px;margin-top:2px}
+.cb-wrap{flex-shrink:0;margin-top:1px}
+.cb{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border2);background:transparent;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.cb.checked{background:var(--accent);border-color:var(--accent)}
+.cb i{color:#fff;font-size:13px;display:none}
+.cb.checked i{display:block}
+.item-text{flex:1;min-width:0}
+.item-label{font-size:14px;line-height:1.45;color:var(--text)}
+.item-label.checked{color:var(--muted);text-decoration:line-through}
+.item-hint{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
+.item-label-input{font-size:14px;width:100%;background:transparent;border:none;border-bottom:1px solid var(--warn-border);color:var(--text);outline:none;padding-bottom:2px;line-height:1.45}
+.item-hint-input{font-size:11px;width:100%;background:transparent;border:none;border-bottom:1px dotted var(--hint);color:var(--muted);outline:none;padding-bottom:1px;margin-top:5px;font-style:italic}
+.item-hint-input::placeholder{color:var(--hint)}
+.item-del-btn{flex-shrink:0;background:none;border:none;color:var(--danger);font-size:20px;cursor:pointer;padding:2px;display:none;align-items:center}
+.item-del-btn.show{display:flex}
+.item-meta{margin-top:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.detail-toggle{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;padding:3px 0}
+.detail-toggle.has-data{color:var(--accent)}
+.detail-toggle i{font-size:14px}
+.risk-sel{font-size:11px;padding:2px 5px;border-radius:4px;border:0.5px solid var(--border2);background:var(--surface3);cursor:pointer}
+.item-detail{display:none;padding:0 14px 14px;background:var(--surface2);border-top:0.5px solid var(--border)}
+.item-detail.open{display:block}
+.detail-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:12px 0 6px}
+textarea.note{width:100%;min-height:72px;resize:vertical;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:inherit;padding:9px 11px;line-height:1.5}
+textarea.note:focus{outline:none;border-color:var(--accent)}
+textarea.note::placeholder{color:var(--hint)}
+.photo-grid{display:flex;flex-wrap:wrap;gap:8px}
+.photo-thumb-wrap{position:relative}
+.photo-thumb{width:70px;height:70px;object-fit:cover;border-radius:var(--radius-sm);border:0.5px solid var(--border2);display:block;cursor:pointer}
+.photo-del{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--danger);color:#fff;border:2px solid var(--surface2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;line-height:1}
+.photo-btns{display:flex;gap:8px;margin-top:8px}
+.photo-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 8px;border-radius:var(--radius-sm);background:var(--bg);border:0.5px solid var(--border2);color:var(--text);font-size:13px;font-weight:500;cursor:pointer}
+.photo-btn:active{background:var(--surface)}
+.photo-btn i{font-size:18px}
+input[type=file]{display:none}
+.add-item-btn{display:none;align-items:center;gap:7px;width:100%;padding:12px 14px;background:transparent;border:none;border-top:0.5px dashed var(--warn-border);color:var(--warn);font-size:13px;cursor:pointer;text-align:left}
+.add-item-btn.show{display:flex}
+.add-item-btn i{font-size:16px}
+.add-section-btn{display:none;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:var(--radius);border:1px dashed var(--warn-border);background:var(--warn-dim);color:var(--warn);font-size:14px;font-weight:500;cursor:pointer;margin-bottom:10px}
+.add-section-btn.show{display:flex}
+.add-section-btn i{font-size:18px}
+.toolbar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:0.5px solid var(--border);padding:10px 12px calc(10px + var(--safe-bottom));display:flex;gap:6px;z-index:100}
+.tool-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:10px 4px;border-radius:var(--radius-sm);background:var(--surface2);border:0.5px solid var(--border2);color:var(--muted);font-size:11px;font-weight:500;cursor:pointer}
+.tool-btn:active{background:var(--bg)}
+.tool-btn.pptx-btn{background:var(--brand-dim);border-color:var(--brand-border);color:#fca5a5}
+.tool-btn i{font-size:15px}
+.lightbox{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:80vh;border-radius:var(--radius-sm);object-fit:contain}
+.lightbox-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:20px 16px calc(20px + var(--safe-bottom));width:100%;max-width:500px}
+.modal h3{font-size:16px;font-weight:600;margin-bottom:14px}
+.modal input{width:100%;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:inherit;padding:10px 12px;outline:none;margin-bottom:10px}
+.modal input:focus{border-color:var(--accent)}
+.modal-row{display:flex;gap:8px}
+.modal-btn{flex:1;padding:12px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;cursor:pointer;border:none}
+.modal-btn.cancel{background:var(--surface2);color:var(--muted)}
+.modal-btn.confirm{background:var(--accent);color:#fff}
+.modal-btn.danger-btn{background:var(--danger);color:#fff}
+.modal label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+.modal-divider{height:0.5px;background:var(--border2);margin:14px 0}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.emoji-opt{font-size:22px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);border:1.5px solid var(--border2);cursor:pointer;background:var(--bg)}
+.emoji-opt.selected{border-color:var(--accent);background:var(--accent-dim)}
+.export-modal{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:20px 16px calc(20px + var(--safe-bottom));width:100%;max-width:500px}
+.export-modal h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.export-modal p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.export-scope{display:flex;gap:6px;margin-bottom:16px}
+.scope-btn{flex:1;padding:9px 4px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--surface2);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;text-align:center}
+.scope-btn.active{background:var(--brand-dim);border-color:var(--brand-border);color:#fca5a5}
+.export-option{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--surface2);margin-bottom:10px;cursor:pointer}
+.export-option:active{background:var(--bg)}
+.export-option-icon{font-size:24px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);flex-shrink:0}
+.export-option-icon.pptx{background:var(--brand-dim);color:#fca5a5}
+.export-option-icon.txt{background:var(--surface3);color:var(--muted)}
+.export-option-text strong{font-size:14px;font-weight:600;display:block}
+.export-option-text span{font-size:12px;color:var(--muted)}
+.confirm-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:20px}
+.confirm-overlay.open{display:flex}
+.confirm-box{background:var(--surface);border-radius:var(--radius);padding:20px;width:100%;max-width:340px}
+.confirm-box h3{font-size:15px;font-weight:600;margin-bottom:8px}
+.confirm-box p{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.confirm-box .modal-row{display:flex;gap:8px}
+.confirm-box .modal-btn{flex:1;padding:12px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;cursor:pointer;border:none}
+.confirm-box .modal-btn.cancel{background:var(--surface2);color:var(--muted)}
+.confirm-box .modal-btn.del{background:var(--danger);color:#fff}
+.toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:0.5px solid var(--border2);color:var(--text);font-size:13px;padding:9px 18px;border-radius:24px;opacity:0;transition:all .25s;pointer-events:none;text-align:center;max-width:90%;z-index:200}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.spinner{display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.7);align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.spinner.show{display:flex}
+.spinner-ring{width:40px;height:40px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.spinner p{font-size:14px;color:var(--muted)}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-header-text">
+    <h1>🔒 Network Closet Assessment</h1>
+    <div class="subtitle"><span id="header-subtitle">—</span> <span id="save-dot" style="font-size:11px;color:var(--accent);margin-left:4px"></span></div>
+  </div>
+  <button class="mode-btn" id="mode-btn" onclick="toggleEditMode()"><i class="ti ti-pencil"></i> Edit</button>
+</div>
+
+<div class="nav-bar">
+  <span class="nav-label">Floor</span>
+  <div class="chips" id="floor-chips"></div>
+  <button class="chip-add" onclick="openFloorModal(null)"><i class="ti ti-plus"></i> Floor</button>
+</div>
+<div class="nav-bar">
+  <span class="nav-label">Room</span>
+  <div class="chips" id="room-chips"></div>
+  <button class="chip-add" onclick="openRoomModal(null)"><i class="ti ti-plus"></i> Room</button>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+<div class="stats-strip">
+  <div class="stat-cell"><div class="num" id="stat-done">0</div><div class="lbl">Done</div></div>
+  <div class="stat-cell"><div class="num" id="stat-pct">0%</div><div class="lbl">Room</div></div>
+  <div class="stat-cell"><div class="num" id="stat-floors">0</div><div class="lbl">Floors</div></div>
+  <div class="stat-cell"><div class="num" id="stat-rooms">0</div><div class="lbl">Rooms</div></div>
+  <div class="stat-cell"><div class="num" id="stat-photos">0</div><div class="lbl">Photos</div></div>
+</div>
+<div class="edit-banner" id="edit-banner"><i class="ti ti-pencil"></i><span>Edit mode changes the checklist for <strong>every room on every floor</strong>.</span></div>
+
+<div class="scroll-area" id="scroll-area"></div>
+
+<div class="toolbar">
+  <button class="tool-btn" onclick="expandAll()"><i class="ti ti-chevrons-down"></i> Expand</button>
+  <button class="tool-btn" onclick="collapseAll()"><i class="ti ti-chevrons-up"></i> Collapse</button>
+  <button class="tool-btn" onclick="openProjectModal()"><i class="ti ti-folder"></i> Project</button>
+  <button class="tool-btn pptx-btn" onclick="openExportModal()"><i class="ti ti-file-export"></i> Export</button>
+</div>
+
+<div class="lightbox" id="lightbox"><button class="lightbox-close">&#x2715;</button><img id="lightbox-img" src="" alt=""></div>
+
+<!-- Floor modal -->
+<div class="modal-overlay" id="floor-modal">
+  <div class="modal">
+    <h3 id="floor-modal-title">Add floor</h3>
+    <label>Floor name</label>
+    <input type="text" id="floor-modal-name" placeholder="e.g. 2nd Floor / Basement" maxlength="50">
+    <div class="modal-row">
+      <button class="modal-btn cancel" onclick="closeFloorModal()">Cancel</button>
+      <button class="modal-btn confirm" onclick="saveFloorModal()">Save</button>
+    </div>
+    <div id="floor-delete-wrap" style="display:none">
+      <div class="modal-divider"></div>
+      <button class="modal-btn danger-btn" style="width:100%" onclick="deleteFloorFromModal()"><i class="ti ti-trash"></i> Delete this floor &amp; its rooms</button>
+    </div>
+  </div>
+</div>
+
+<!-- Room modal -->
+<div class="modal-overlay" id="room-modal">
+  <div class="modal">
+    <h3 id="room-modal-title">Add room</h3>
+    <label>Room name</label>
+    <input type="text" id="room-modal-name" placeholder="e.g. IDF 201 / Telecom Closet" maxlength="50">
+    <label>Notes / location (optional)</label>
+    <input type="text" id="room-modal-loc" placeholder="e.g. Rack 3, north wall" maxlength="80">
+    <div class="modal-row">
+      <button class="modal-btn cancel" onclick="closeRoomModal()">Cancel</button>
+      <button class="modal-btn confirm" onclick="saveRoomModal()">Save</button>
+    </div>
+    <div id="room-delete-wrap" style="display:none">
+      <div class="modal-divider"></div>
+      <button class="modal-btn danger-btn" style="width:100%" onclick="deleteRoomFromModal()"><i class="ti ti-trash"></i> Delete this room</button>
+    </div>
+  </div>
+</div>
+
+<!-- Section modal -->
+<div class="modal-overlay" id="sec-modal">
+  <div class="modal">
+    <h3>Add section</h3>
+    <label>Choose an icon</label>
+    <div class="emoji-grid" id="emoji-grid"></div>
+    <label>Section name</label>
+    <input type="text" id="sec-modal-name" placeholder="e.g. Rack infrastructure" maxlength="60">
+    <div class="modal-row">
+      <button class="modal-btn cancel" onclick="closeSecModal()">Cancel</button>
+      <button class="modal-btn confirm" onclick="confirmAddSection()">Add section</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export modal -->
+<div class="modal-overlay" id="export-modal">
+  <div class="export-modal">
+    <h3>Export report</h3>
+    <p>Choose what to include and the file format.</p>
+    <label style="font-size:12px;color:var(--muted);margin-bottom:6px;display:block">Scope</label>
+    <div class="export-scope">
+      <button class="scope-btn active" id="scope-all" onclick="setScope('all')">All floors</button>
+      <button class="scope-btn" id="scope-floor" onclick="setScope('floor')">This floor</button>
+      <button class="scope-btn" id="scope-room" onclick="setScope('room')">This room</button>
+    </div>
+    <div class="export-option" onclick="exportExecutive()">
+      <div class="export-option-icon pptx"><i class="ti ti-chart-arcs"></i></div>
+      <div class="export-option-text"><strong>Executive Summary (.pptx)</strong><span>High-level deck: overview, risk heat map, top findings & recommendations</span></div>
+    </div>
+    <div class="export-option" onclick="exportPPTX()">
+      <div class="export-option-icon pptx"><i class="ti ti-presentation"></i></div>
+      <div class="export-option-text"><strong>Detailed PowerPoint (.pptx)</strong><span>Full branded deck grouped by floor & room, with worksheets & photos</span></div>
+    </div>
+    <div class="export-option" onclick="exportTXT()">
+      <div class="export-option-icon txt"><i class="ti ti-file-text"></i></div>
+      <div class="export-option-text"><strong>Text report (.txt)</strong><span>Plain-text summary grouped by floor and room</span></div>
+    </div>
+    <button class="modal-btn cancel" style="width:100%;margin-top:4px" onclick="closeExportModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- Project (save/load) modal -->
+<div class="modal-overlay" id="project-modal">
+  <div class="export-modal">
+    <h3>Project file</h3>
+    <p>Your work autosaves on this device automatically. Use a project file to back up to SharePoint or move work between devices.</p>
+    <div class="export-option" onclick="saveProjectFile()">
+      <div class="export-option-icon pptx"><i class="ti ti-device-floppy"></i></div>
+      <div class="export-option-text"><strong>Save project (.json)</strong><span id="save-proj-sub">Download a file with every floor, room, note, risk &amp; photo</span></div>
+    </div>
+    <div class="export-option" onclick="document.getElementById('project-load-input').click()">
+      <div class="export-option-icon txt"><i class="ti ti-folder-open"></i></div>
+      <div class="export-option-text"><strong>Load project (.json)</strong><span>Open a saved project file to view or continue it</span></div>
+    </div>
+    <div class="modal-divider"></div>
+    <button class="export-option" style="width:100%;border:none;background:transparent;padding:8px 0;color:var(--danger)" onclick="resetRoomFromProject()">
+      <div class="export-option-icon" style="background:var(--danger-dim);color:var(--danger)"><i class="ti ti-refresh"></i></div>
+      <div class="export-option-text" style="text-align:left"><strong style="color:var(--danger)">Reset current room</strong><span>Clear this room's data only (other rooms unaffected)</span></div>
+    </button>
+    <button class="modal-btn cancel" style="width:100%;margin-top:4px" onclick="closeProjectModal()">Cancel</button>
+  </div>
+</div>
+<input type="file" id="project-load-input" accept="application/json,.json">
+
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <h3 id="confirm-title">Confirm</h3>
+    <p id="confirm-msg"></p>
+    <div class="modal-row">
+      <button class="modal-btn cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="modal-btn del" id="confirm-action-btn">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" id="spinner"><div class="spinner-ring"></div><p id="spinner-msg">Generating…</p></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="file-camera" accept="image/*" capture="environment" multiple>
+<input type="file" id="file-gallery" accept="image/*" multiple>
+
+<script>
+const EMOJI_OPTS=['🏗️','⚡','🔌','🖥️','🔒','📋','📊','🔧','📡','🗄️','🛡️','🌐','🔦','🧰','⚙️','📦','💾','🔋','🧲','🏢'];
+let selectedEmoji=EMOJI_OPTS[0];
+let editMode=false,pendingUploadKey=null,confirmCallback=null,exportScope='all';
+const BRAND={darkRed:'830F0C',red:'C00000',white:'FFFFFF',lightGray:'F2F2F2',midGray:'D9D9D9',darkGray:'595959',black:'1F1F1F',riskHigh:'C00000',riskMed:'FF8000',riskLow:'00B050'};
+let _idc=0;const nid=p=>(p||'id')+'_'+(Date.now().toString(36))+'_'+(_idc++);
+
+let SECTIONS=[
+  {icon:"🏗️",title:"Physical Environment",items:[
+    {t:"Verify dedicated, locked room or cabinet with restricted access",n:""},
+    {t:"Check ambient temperature (target 65–75°F / 18–24°C)",n:"Use a thermometer or environmental sensor"},
+    {t:"Check relative humidity (target 40–60%)",n:""},
+    {t:"Inspect for water intrusion, leaks, or moisture damage",n:""},
+    {t:"Confirm adequate airflow and ventilation",n:"Front-to-back or top exhaust"},
+    {t:"Verify fire suppression or detection system is present and active",n:""},
+    {t:"Check that no combustible materials are stored in the closet",n:""},
+    {t:"Ensure adequate lighting (permanent fixture preferred)",n:""},
+  ]},
+  {icon:"⚡",title:"Power & UPS",items:[
+    {t:"Confirm UPS is present, functional, and sized appropriately for load",n:""},
+    {t:"Check UPS battery health and last service date",n:"Replace batteries every 3–5 years"},
+    {t:"Verify dedicated circuits for network equipment",n:""},
+    {t:"Inspect PDUs for overloading",n:""},
+    {t:"Test automatic transfer / failover if redundant power present",n:""},
+    {t:"Confirm all power cables are labeled and secured",n:""},
+    {t:"Check surge protection on all critical equipment",n:""},
+  ]},
+  {icon:"🔌",title:"Cabling & Patch Management",items:[
+    {t:"All cables labeled at both ends (source and destination)",n:""},
+    {t:"Patch panel labels match switch port documentation",n:""},
+    {t:"Cables bundled and routed through cable management",n:""},
+    {t:"No sharp bends exceeding minimum bend radius",n:"Cat6 min bend radius ≈ 1 in / 2.5 cm"},
+    {t:"Fiber cables protected, not kinked, properly looped",n:""},
+    {t:"No dangling or unlabeled patch cables",n:""},
+    {t:"Verify cable category matches port speed requirements",n:"Cat5e, Cat6, Cat6A"},
+    {t:"Check for unused ports secured with dust caps",n:""},
+  ]},
+  {icon:"🖥️",title:"Active Equipment",items:[
+    {t:"Inventory all equipment: make, model, serial, firmware",n:""},
+    {t:"Switches running current or approved firmware",n:""},
+    {t:"Verify all switch ports are documented and assigned",n:""},
+    {t:"Confirm PoE budget not exceeded on PoE switches",n:""},
+    {t:"Check router/firewall firmware and active support contract",n:""},
+    {t:"Validate wireless AP placements and configurations if present",n:""},
+    {t:"Confirm all equipment mounted securely",n:""},
+    {t:"Verify all equipment has front and rear airflow clearance",n:""},
+  ]},
+  {icon:"🔒",title:"Security & Access Control",items:[
+    {t:"Access log or badge reader in place and functional",n:""},
+    {t:"Unused network ports disabled in switch configuration",n:""},
+    {t:"802.1X or MAC filtering enabled where appropriate",n:""},
+    {t:"Out-of-band management secured and documented",n:""},
+    {t:"Default credentials changed on all devices",n:""},
+    {t:"Management VLANs isolated from user traffic",n:""},
+    {t:"Physical port security (locks, blocked unused ports)",n:""},
+  ]},
+  {icon:"📋",title:"Documentation & Labeling",items:[
+    {t:"Network diagram (logical and physical) current and accessible",n:""},
+    {t:"IP address scheme / IPAM documentation up to date",n:""},
+    {t:"VLAN documentation complete with descriptions",n:""},
+    {t:"Rack elevation diagram posted or accessible",n:""},
+    {t:"Escalation contacts and vendor support numbers posted",n:""},
+    {t:"Change log maintained for equipment and config changes",n:""},
+    {t:"Warranty/support contract expiration dates recorded",n:""},
+  ]},
+  {icon:"📊",title:"Monitoring & Alerting",items:[
+    {t:"Environmental monitoring (temp/humidity) with alerting",n:""},
+    {t:"Network monitoring (SNMP, NetFlow) active on all devices",n:""},
+    {t:"Uptime/availability alerting configured with thresholds",n:""},
+    {t:"Syslog centralized and retention policy defined",n:""},
+    {t:"Bandwidth utilization trending and capacity planning",n:""},
+    {t:"Alerts tested and routed to correct on-call contacts",n:""},
+  ]},
+  {icon:"🔧",title:"Maintenance & Cleanliness",items:[
+    {t:"Dust equipment and rack interiors",n:"Compressed air or vacuum, at least quarterly"},
+    {t:"Inspect fan operation on all switches, routers, servers",n:""},
+    {t:"Clean cable runs of debris or zip-tie offcuts",n:""},
+    {t:"Verify cable ties not over-tightened",n:"Can cause crosstalk"},
+    {t:"Remove decommissioned equipment and associated cabling",n:""},
+    {t:"Schedule next preventative maintenance date",n:""},
+  ]},
+];
+
+// floors -> rooms -> response state
+let floors=[];
+let currentFloorId=null, currentRoomId=null;
+const openSec={}, openDetail={};
+
+function assignIds(){SECTIONS.forEach(s=>{if(!s.id)s.id=nid('sec');s.items.forEach(it=>{if(!it.id)it.id=nid('it');});});}
+function newRoom(name,loc,floor){return {id:nid('room'),name:name||('Room '+((floor?floor.rooms.length:0)+1)),loc:loc||'',checked:{},notes:{},photos:{},risk:{}};}
+function newFloor(name){const f={id:nid('floor'),name:name||('Floor '+(floors.length+1)),rooms:[]};f.rooms.push(newRoom('Room 1','',f));return f;}
+function curFloor(){return floors.find(f=>f.id===currentFloorId)||floors[0];}
+function curRoom(){const f=curFloor();return (f.rooms.find(r=>r.id===currentRoomId))||f.rooms[0];}
+
+function initData(){
+  assignIds();
+  if(floors.length===0){const f=newFloor('Ground Floor');floors.push(f);currentFloorId=f.id;currentRoomId=f.rooms[0].id;}
+  SECTIONS.forEach(s=>{if(!(s.id in openSec))openSec[s.id]=false;});
+}
+
+function allItems(){return SECTIONS.reduce((a,s)=>a.concat(s.items),[]);}
+function totalItems(){return allItems().length;}
+function roomDone(r){return allItems().filter(it=>r.checked[it.id]).length;}
+function roomPct(r){const t=totalItems();return t?Math.round(roomDone(r)/t*100):0;}
+function roomPhotos(r){return Object.values(r.photos).reduce((a,x)=>a+(x?x.length:0),0);}
+function roomHigh(r){return allItems().filter(it=>r.risk[it.id]==='H').length;}
+function roomMed(r){return allItems().filter(it=>r.risk[it.id]==='M').length;}
+function roomLow(r){return allItems().filter(it=>r.risk[it.id]==='L').length;}
+function secDoneCount(r,sec){return sec.items.filter(it=>r.checked[it.id]).length;}
+function floorPct(f){if(!f.rooms.length)return 0;return Math.round(f.rooms.reduce((a,r)=>a+roomPct(r),0)/f.rooms.length);}
+function totalRooms(){return floors.reduce((a,f)=>a+f.rooms.length,0);}
+
+function updateStats(){
+  const r=curRoom(),f=curFloor();
+  document.getElementById('progress-fill').style.width=roomPct(r)+'%';
+  document.getElementById('stat-done').textContent=roomDone(r)+'/'+totalItems();
+  document.getElementById('stat-pct').textContent=roomPct(r)+'%';
+  document.getElementById('stat-floors').textContent=floors.length;
+  document.getElementById('stat-rooms').textContent=totalRooms();
+  document.getElementById('stat-photos').textContent=roomPhotos(r);
+  document.getElementById('header-subtitle').textContent=f.name+' › '+r.name+(r.loc?(' · '+r.loc):'');
+}
+
+function riskColorCss(rk){return rk==='H'?'#ef4444':rk==='M'?'#f59e0b':rk==='L'?'#10b981':'var(--hint)';}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderNav(){
+  const fbar=document.getElementById('floor-chips');
+  fbar.innerHTML=floors.map(f=>{
+    const active=f.id===currentFloorId;
+    return `<div class="chip floor-chip${active?' active':''}" onclick="switchFloor('${f.id}')">
+      <span>${escHtml(f.name)}</span><span class="pct">${floorPct(f)}%</span>
+      ${active?`<span class="chip-edit" onclick="event.stopPropagation();openFloorModal('${f.id}')"><i class="ti ti-dots"></i></span>`:''}
+    </div>`;
+  }).join('');
+  const f=curFloor();
+  const rbar=document.getElementById('room-chips');
+  rbar.innerHTML=f.rooms.map(r=>{
+    const active=r.id===currentRoomId;
+    return `<div class="chip room-chip${active?' active':''}" onclick="switchRoom('${r.id}')">
+      <span>${escHtml(r.name)}</span><span class="pct">${roomPct(r)}%</span>
+      ${active?`<span class="chip-edit" onclick="event.stopPropagation();openRoomModal('${r.id}')"><i class="ti ti-dots"></i></span>`:''}
+    </div>`;
+  }).join('');
+  const fa=fbar.querySelector('.active');if(fa)fa.scrollIntoView({inline:'center',block:'nearest'});
+  const ra=rbar.querySelector('.active');if(ra)ra.scrollIntoView({inline:'center',block:'nearest'});
+}
+
+function switchFloor(id){currentFloorId=id;const f=curFloor();currentRoomId=f.rooms.length?f.rooms[0].id:null;collapseDetails();render();}
+function switchRoom(id){currentRoomId=id;collapseDetails();render();}
+function collapseDetails(){Object.keys(openDetail).forEach(k=>openDetail[k]=false);}
+
+// ── Floor modal ──
+function openFloorModal(id){
+  document.getElementById('floor-modal-title').textContent=id?'Edit floor':'Add floor';
+  document.getElementById('floor-delete-wrap').style.display=(id&&floors.length>1)?'block':'none';
+  const f=id?floors.find(x=>x.id===id):null;
+  document.getElementById('floor-modal-name').value=f?f.name:'';
+  document.getElementById('floor-modal').dataset.floorId=id||'';
+  document.getElementById('floor-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('floor-modal-name').focus(),100);
+}
+function closeFloorModal(){document.getElementById('floor-modal').classList.remove('open');}
+function saveFloorModal(){
+  const name=document.getElementById('floor-modal-name').value.trim();
+  if(!name){showToast('Enter a floor name');return;}
+  const id=document.getElementById('floor-modal').dataset.floorId;
+  if(id){const f=floors.find(x=>x.id===id);if(f)f.name=name;}
+  else{const f=newFloor(name);floors.push(f);currentFloorId=f.id;currentRoomId=f.rooms[0].id;}
+  closeFloorModal();render();showToast(id?'Floor updated':'Floor added');
+}
+function deleteFloorFromModal(){
+  const id=document.getElementById('floor-modal').dataset.floorId;const f=floors.find(x=>x.id===id);if(!f)return;
+  closeFloorModal();
+  showConfirm('Delete floor?',`"${f.name}" and all ${f.rooms.length} room(s) on it — including findings and photos — will be permanently removed.`,'Delete',()=>{
+    floors=floors.filter(x=>x.id!==id);
+    if(currentFloorId===id){currentFloorId=floors[0].id;currentRoomId=floors[0].rooms[0].id;}
+    render();showToast('Floor deleted');
+  });
+}
+
+// ── Room modal ──
+function openRoomModal(id){
+  document.getElementById('room-modal-title').textContent=id?'Edit room':'Add room';
+  const f=curFloor();
+  document.getElementById('room-delete-wrap').style.display=(id&&f.rooms.length>1)?'block':'none';
+  const r=id?f.rooms.find(x=>x.id===id):null;
+  document.getElementById('room-modal-name').value=r?r.name:'';
+  document.getElementById('room-modal-loc').value=r?r.loc:'';
+  document.getElementById('room-modal').dataset.roomId=id||'';
+  document.getElementById('room-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('room-modal-name').focus(),100);
+}
+function closeRoomModal(){document.getElementById('room-modal').classList.remove('open');}
+function saveRoomModal(){
+  const name=document.getElementById('room-modal-name').value.trim();
+  const loc=document.getElementById('room-modal-loc').value.trim();
+  if(!name){showToast('Enter a room name');return;}
+  const id=document.getElementById('room-modal').dataset.roomId;const f=curFloor();
+  if(id){const r=f.rooms.find(x=>x.id===id);if(r){r.name=name;r.loc=loc;}}
+  else{const r=newRoom(name,loc,f);f.rooms.push(r);currentRoomId=r.id;}
+  closeRoomModal();render();showToast(id?'Room updated':'Room added');
+}
+function deleteRoomFromModal(){
+  const id=document.getElementById('room-modal').dataset.roomId;const f=curFloor();const r=f.rooms.find(x=>x.id===id);if(!r)return;
+  closeRoomModal();
+  showConfirm('Delete room?',`"${r.name}" and all its findings, notes, and photos will be permanently removed.`,'Delete',()=>{
+    f.rooms=f.rooms.filter(x=>x.id!==id);
+    if(currentRoomId===id)currentRoomId=f.rooms[0].id;
+    render();showToast('Room deleted');
+  });
+}
+
+// ── Main render ──
+function render(){
+  initData();renderNav();
+  const r=curRoom();const area=document.getElementById('scroll-area');let h='';
+  SECTIONS.forEach(sec=>{
+    const sc=secDoneCount(r,sec),si=sec.items.length,allDone=sc===si&&si>0,isOpen=openSec[sec.id];
+    h+=`<div class="section${editMode?' editing':''}">`;
+    h+=`<div class="sec-header" onclick="handleSecHeaderClick('${sec.id}')">`;
+    if(editMode)h+=`<input class="sec-icon-input" type="text" value="${sec.icon}" maxlength="2" oninput="updateSecIcon('${sec.id}',this.value)" onclick="event.stopPropagation()">`;
+    else h+=`<div class="sec-icon-wrap">${sec.icon}</div>`;
+    h+=`<div class="sec-title-wrap">`;
+    if(editMode)h+=`<input class="sec-title-input" type="text" value="${escHtml(sec.title)}" maxlength="60" oninput="updateSecTitle('${sec.id}',this.value)" onclick="event.stopPropagation()">`;
+    else h+=`<span class="sec-title">${escHtml(sec.title)}</span>`;
+    h+=`</div>`;
+    if(!editMode)h+=`<span class="sec-badge${allDone?' done':''}">${sc}/${si}${allDone?' ✓':''}</span>`;
+    h+=`<span class="sec-chev${isOpen&&!editMode?' open':''}"><i class="ti ti-chevron-down"></i></span></div>`;
+    h+=`<div class="sec-edit-bar${editMode?' show':''}">`;
+    h+=`<button class="sec-edit-btn" onclick="moveSec('${sec.id}',-1)"><i class="ti ti-arrow-up"></i> Up</button>`;
+    h+=`<button class="sec-edit-btn" onclick="moveSec('${sec.id}',1)"><i class="ti ti-arrow-down"></i> Down</button>`;
+    h+=`<div class="sec-edit-btn-spacer"></div>`;
+    h+=`<button class="sec-edit-btn del" onclick="confirmDeleteSec('${sec.id}')"><i class="ti ti-trash"></i> Delete</button></div>`;
+    if(isOpen||editMode){
+      h+=`<div class="sec-items">`;
+      sec.items.forEach(item=>{
+        const id=item.id,chk=!!r.checked[id],dOpen=openDetail[id];
+        const pc=(r.photos[id]||[]).length,note=(r.notes[id]||'').trim(),hasN=note.length>0,risk=r.risk[id]||'';
+        h+=`<div class="item"><div class="item-row${editMode?'':' check-mode'}" ${editMode?'':'onclick="toggleCheck(\''+id+'\')"'}>`;
+        if(editMode)h+=`<span class="drag-handle"><i class="ti ti-grip-vertical"></i></span>`;
+        else h+=`<div class="cb-wrap"><div class="cb${chk?' checked':''}"><i class="ti ti-check"></i></div></div>`;
+        h+=`<div class="item-text">`;
+        if(editMode){
+          h+=`<input class="item-label-input" type="text" value="${escHtml(item.t)}" maxlength="120" oninput="updateItemText('${sec.id}','${id}',this.value)">`;
+          h+=`<input class="item-hint-input" type="text" value="${escHtml(item.n||'')}" maxlength="100" oninput="updateItemHint('${sec.id}','${id}',this.value)" placeholder="Optional hint">`;
+        } else {
+          h+=`<div class="item-label${chk?' checked':''}">${escHtml(item.t)}</div>`;
+          if(item.n)h+=`<div class="item-hint">${escHtml(item.n)}</div>`;
+          h+=`<div class="item-meta">`;
+          h+=`<button class="detail-toggle${(hasN||pc>0)?' has-data':''}" onclick="event.stopPropagation();toggleDetail('${id}')"><i class="ti ti-notes"></i> ${dOpen?'Hide':'Notes & photos'}${hasN||pc?` · ${hasN?'note':''}${hasN&&pc?' + ':''}${pc?pc+' photo'+(pc>1?'s':''):''}`:''}</button>`;
+          h+=`<select class="risk-sel" style="color:${riskColorCss(risk)}" onclick="event.stopPropagation()" onchange="setRisk('${id}',this.value)">`;
+          h+=`<option value="" ${!risk?'selected':''}>Risk?</option>`;
+          [['H','High'],['M','Medium'],['L','Low']].forEach(([v,l])=>{h+=`<option value="${v}" ${risk===v?'selected':''}>${l}</option>`;});
+          h+=`</select></div>`;
+        }
+        h+=`</div>`;
+        if(editMode)h+=`<button class="item-del-btn show" onclick="confirmDeleteItem('${sec.id}','${id}')"><i class="ti ti-x"></i></button>`;
+        h+=`</div>`;
+        if(!editMode){
+          h+=`<div class="item-detail${dOpen?' open':''}">
+            <div class="detail-label">Notes / Observations</div>
+            <textarea class="note" placeholder="Add observations, measurements, findings…" oninput="saveNote('${id}',this.value)">${escHtml(r.notes[id]||'')}</textarea>
+            <div class="detail-label" style="margin-top:14px">Photos</div>
+            <div class="photo-grid" style="margin-bottom:${pc?'10px':'0'}">
+              ${(r.photos[id]||[]).map((p,pi)=>`<div class="photo-thumb-wrap"><img class="photo-thumb" src="${p}" onclick="openLightbox('${id}',${pi})"><button class="photo-del" onclick="deletePhoto('${id}',${pi})">×</button></div>`).join('')}
+            </div>
+            <div class="photo-btns">
+              <button class="photo-btn" onclick="takePhoto('${id}')"><i class="ti ti-camera"></i> Camera</button>
+              <button class="photo-btn" onclick="pickPhoto('${id}')"><i class="ti ti-photo"></i> Gallery</button>
+            </div>
+          </div>`;
+        }
+        h+=`</div>`;
+      });
+      h+=`<button class="add-item-btn${editMode?' show':''}" onclick="addItem('${sec.id}')"><i class="ti ti-plus"></i> Add item</button></div>`;
+    }
+    h+=`</div>`;
+  });
+  h+=`<button class="add-section-btn${editMode?' show':''}" onclick="openSecModal()"><i class="ti ti-plus"></i> Add section</button>`;
+  area.innerHTML=h;updateStats();
+}
+
+function handleSecHeaderClick(sid){if(editMode)return;openSec[sid]=!openSec[sid];render();}
+function toggleCheck(id){curRoom().checked[id]=!curRoom().checked[id];render();}
+function toggleDetail(id){openDetail[id]=!openDetail[id];render();}
+function saveNote(id,v){curRoom().notes[id]=v;updateStats();}
+function setRisk(id,v){curRoom().risk[id]=v;updateStats();}
+function expandAll(){SECTIONS.forEach(s=>{openSec[s.id]=true;});render();}
+function collapseAll(){SECTIONS.forEach(s=>{openSec[s.id]=false;});render();}
+function resetRoom(){const r=curRoom();showConfirm('Reset this room?',`Clear all data for "${curFloor().name} › ${r.name}"? Other rooms are unaffected.`,'Reset',()=>{r.checked={};r.notes={};r.photos={};r.risk={};render();showToast('Room reset');});}
+function toggleEditMode(){editMode=!editMode;const b=document.getElementById('mode-btn'),bn=document.getElementById('edit-banner');if(editMode){b.innerHTML='<i class="ti ti-check"></i> Done';b.classList.add('edit-mode');bn.classList.add('show');SECTIONS.forEach(s=>{openSec[s.id]=true;});}else{b.innerHTML='<i class="ti ti-pencil"></i> Edit';b.classList.remove('edit-mode');bn.classList.remove('show');}render();}
+function updateSecTitle(sid,v){const s=SECTIONS.find(x=>x.id===sid);if(s)s.title=v;updateStats();}
+function updateSecIcon(sid,v){const s=SECTIONS.find(x=>x.id===sid);if(s)s.icon=v;}
+function updateItemText(sid,id,v){const s=SECTIONS.find(x=>x.id===sid);if(s){const it=s.items.find(x=>x.id===id);if(it)it.t=v;}}
+function updateItemHint(sid,id,v){const s=SECTIONS.find(x=>x.id===sid);if(s){const it=s.items.find(x=>x.id===id);if(it)it.n=v;}}
+function moveSec(sid,dir){const i=SECTIONS.findIndex(s=>s.id===sid),j=i+dir;if(j<0||j>=SECTIONS.length)return;[SECTIONS[i],SECTIONS[j]]=[SECTIONS[j],SECTIONS[i]];render();}
+function addItem(sid){const s=SECTIONS.find(x=>x.id===sid);if(!s)return;s.items.push({id:nid('it'),t:'New item',n:''});render();setTimeout(()=>{const inp=document.querySelectorAll('.item-label-input');if(inp.length)inp[inp.length-1].focus();},50);}
+function confirmDeleteSec(sid){const s=SECTIONS.find(x=>x.id===sid);showConfirm('Delete section?',`"${s.title}" and its items will be removed from every room on every floor.`,'Delete',()=>{SECTIONS=SECTIONS.filter(x=>x.id!==sid);render();showToast('Section deleted');});}
+function confirmDeleteItem(sid,id){const s=SECTIONS.find(x=>x.id===sid);const it=s.items.find(x=>x.id===id);showConfirm('Remove item?',`"${it.t}" will be removed everywhere.`,'Remove',()=>{s.items=s.items.filter(x=>x.id!==id);render();showToast('Item removed');});}
+function buildEmojiGrid(){document.getElementById('emoji-grid').innerHTML=EMOJI_OPTS.map(e=>`<div class="emoji-opt${e===selectedEmoji?' selected':''}" onclick="selectEmoji('${e}')">${e}</div>`).join('');}
+function selectEmoji(e){selectedEmoji=e;document.querySelectorAll('.emoji-opt').forEach(el=>el.classList.toggle('selected',el.textContent===e));}
+function openSecModal(){selectedEmoji=EMOJI_OPTS[0];buildEmojiGrid();document.getElementById('sec-modal-name').value='';document.getElementById('sec-modal').classList.add('open');setTimeout(()=>document.getElementById('sec-modal-name').focus(),100);}
+function closeSecModal(){document.getElementById('sec-modal').classList.remove('open');}
+function confirmAddSection(){const name=document.getElementById('sec-modal-name').value.trim();if(!name){showToast('Enter a section name');return;}SECTIONS.push({id:nid('sec'),icon:selectedEmoji,title:name,items:[{id:nid('it'),t:'New item',n:''}]});openSec[SECTIONS[SECTIONS.length-1].id]=true;closeSecModal();render();showToast('Section added');}
+function showConfirm(t,m,a,cb){document.getElementById('confirm-title').textContent=t;document.getElementById('confirm-msg').textContent=m;document.getElementById('confirm-action-btn').textContent=a;confirmCallback=cb;document.getElementById('confirm-overlay').classList.add('open');}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('open');confirmCallback=null;}
+document.getElementById('confirm-action-btn').addEventListener('click',()=>{if(confirmCallback)confirmCallback();closeConfirm();});
+function takePhoto(id){pendingUploadKey=id;document.getElementById('file-camera').click();}
+function pickPhoto(id){pendingUploadKey=id;document.getElementById('file-gallery').click();}
+function handleFiles(files){const id=pendingUploadKey;if(!id)return;const r=curRoom();if(!r.photos[id])r.photos[id]=[];Array.from(files).forEach(f=>{const rd=new FileReader();rd.onload=e=>{r.photos[id].push(e.target.result);render();};rd.readAsDataURL(f);});}
+document.getElementById('file-camera').addEventListener('change',function(){handleFiles(this.files);this.value='';});
+document.getElementById('file-gallery').addEventListener('change',function(){handleFiles(this.files);this.value='';});
+function deletePhoto(id,pi){curRoom().photos[id].splice(pi,1);render();}
+function openLightbox(id,pi){document.getElementById('lightbox-img').src=curRoom().photos[id][pi];document.getElementById('lightbox').classList.add('open');}
+document.getElementById('lightbox').addEventListener('click',()=>document.getElementById('lightbox').classList.remove('open'));
+function openExportModal(){document.getElementById('export-modal').classList.add('open');}
+function closeExportModal(){document.getElementById('export-modal').classList.remove('open');}
+function setScope(s){exportScope=s;['all','floor','room'].forEach(x=>document.getElementById('scope-'+x).classList.toggle('active',x===s));}
+
+// returns array of {floor, room}
+function pairsForExport(){
+  const out=[];
+  if(exportScope==='room'){out.push({floor:curFloor(),room:curRoom()});}
+  else if(exportScope==='floor'){curFloor().rooms.forEach(r=>out.push({floor:curFloor(),room:r}));}
+  else {floors.forEach(f=>f.rooms.forEach(r=>out.push({floor:f,room:r})));}
+  return out;
+}
+
+// ── PPTX EXPORT ──
+async function exportPPTX(){
+  closeExportModal();
+  const spinner=document.getElementById('spinner'),spinMsg=document.getElementById('spinner-msg');
+  spinner.classList.add('show');spinMsg.textContent='Generating presentation…';
+  await new Promise(r=>setTimeout(r,50));
+  try{
+    const PptxLib=(typeof PptxGenJS!=='undefined')?PptxGenJS:(typeof pptxgen!=='undefined'?pptxgen:null);
+    if(!PptxLib){spinner.classList.remove('show');showToast('PowerPoint library not loaded — need internet on first export');return;}
+    const pres=new PptxLib();pres.layout='LAYOUT_WIDE';pres.author='Network Closet Assessment';pres.company='EC-United';
+    const date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    const pairs=pairsForExport();
+    const total=totalItems();
+    // group pairs by floor (preserve order)
+    const exFloors=[];
+    pairs.forEach(p=>{let fe=exFloors.find(x=>x.floor.id===p.floor.id);if(!fe){fe={floor:p.floor,rooms:[]};exFloors.push(fe);}fe.rooms.push(p.room);});
+
+    // ── Cover ──
+    spinMsg.textContent='Building cover…';await new Promise(r=>setTimeout(r,10));
+    {
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:1.4,fill:{color:BRAND.darkRed}});
+      slide.addText('NETWORK CLOSET ASSESSMENT',{x:0.4,y:0.18,w:12,h:0.6,fontSize:28,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText('Multi-Floor Risk Assessment Worksheet & Executive Report',{x:0.4,y:0.82,w:11.5,h:0.45,fontSize:16,color:'FFCCCC',fontFace:'Calibri'});
+      slide.addText(date,{x:10.5,y:0.18,w:2.4,h:0.35,fontSize:11,color:BRAND.white,align:'right',fontFace:'Calibri'});
+      const aggDone=pairs.reduce((a,p)=>a+roomDone(p.room),0);
+      const aggHigh=pairs.reduce((a,p)=>a+roomHigh(p.room),0);
+      const aggPhotos=pairs.reduce((a,p)=>a+roomPhotos(p.room),0);
+      const stats=[{l:'Floors',v:String(exFloors.length)},{l:'Rooms',v:String(pairs.length)},{l:'Items Done',v:`${aggDone}/${total*pairs.length}`},{l:'High Risks',v:String(aggHigh)},{l:'Photos',v:String(aggPhotos)}];
+      stats.forEach((s,i)=>{const x=0.4+i*2.52;
+        slide.addShape(pres.ShapeType.rect,{x,y:1.62,w:2.32,h:1.15,fill:{color:BRAND.lightGray},line:{color:BRAND.midGray,width:0.5}});
+        slide.addText(s.v,{x,y:1.68,w:2.32,h:0.6,fontSize:22,bold:true,color:BRAND.darkRed,align:'center',fontFace:'Calibri'});
+        slide.addText(s.l,{x,y:2.28,w:2.32,h:0.4,fontSize:10,color:BRAND.darkGray,align:'center',fontFace:'Calibri'});
+      });
+      // grouped table
+      let y=3.05;
+      slide.addShape(pres.ShapeType.rect,{x:0.4,y,w:12.53,h:0.34,fill:{color:BRAND.darkRed}});
+      slide.addText('FLOOR / ROOM',{x:0.5,y:y+0.02,w:6,h:0.3,fontSize:12,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText('Progress',{x:7.4,y:y+0.02,w:1.6,h:0.3,fontSize:11,bold:true,color:BRAND.white,align:'center',fontFace:'Calibri'});
+      slide.addText('Done',{x:9.0,y:y+0.02,w:1.4,h:0.3,fontSize:11,bold:true,color:BRAND.white,align:'center',fontFace:'Calibri'});
+      slide.addText('H / M / L',{x:10.4,y:y+0.02,w:2.0,h:0.3,fontSize:11,bold:true,color:BRAND.white,align:'center',fontFace:'Calibri'});
+      y+=0.34;
+      let rowsDrawn=0;const maxRows=10;let overflow=false;
+      for(const fe of exFloors){
+        if(rowsDrawn>=maxRows){overflow=true;break;}
+        // floor band
+        slide.addShape(pres.ShapeType.rect,{x:0.4,y,w:12.53,h:0.3,fill:{color:'C00000'}});
+        slide.addText(`${fe.floor.name}  (${fe.rooms.length} room${fe.rooms.length>1?'s':''})`,{x:0.5,y:y+0.01,w:12,h:0.28,fontSize:11,bold:true,color:BRAND.white,fontFace:'Calibri',valign:'middle'});
+        y+=0.3;rowsDrawn++;
+        for(const room of fe.rooms){
+          if(rowsDrawn>=maxRows){overflow=true;break;}
+          const bg=rowsDrawn%2===0?BRAND.white:'F7F7F7';
+          slide.addShape(pres.ShapeType.rect,{x:0.4,y,w:12.53,h:0.3,fill:{color:bg},line:{color:BRAND.midGray,width:0.3}});
+          slide.addText('   '+room.name+(room.loc?('  ·  '+room.loc):''),{x:0.55,y:y+0.01,w:6.7,h:0.28,fontSize:10,color:BRAND.black,fontFace:'Calibri',valign:'middle'});
+          slide.addText(roomPct(room)+'%',{x:7.4,y:y+0.01,w:1.6,h:0.28,fontSize:10,color:BRAND.darkGray,align:'center',fontFace:'Calibri',valign:'middle'});
+          slide.addText(`${roomDone(room)}/${total}`,{x:9.0,y:y+0.01,w:1.4,h:0.28,fontSize:10,color:BRAND.darkGray,align:'center',fontFace:'Calibri',valign:'middle'});
+          slide.addText(`${roomHigh(room)} / ${roomMed(room)} / ${roomLow(room)}`,{x:10.4,y:y+0.01,w:2.0,h:0.28,fontSize:10,color:BRAND.darkGray,align:'center',fontFace:'Calibri',valign:'middle'});
+          y+=0.3;rowsDrawn++;
+        }
+      }
+      if(overflow)slide.addText('Full detail for every room follows on the next slides.',{x:0.5,y:y+0.05,w:12,h:0.3,fontSize:9,italic:true,color:BRAND.darkGray,fontFace:'Calibri'});
+      slide.addShape(pres.ShapeType.rect,{x:0,y:7.1,w:'100%',h:0.4,fill:{color:BRAND.darkRed}});
+      slide.addText('EC-UNITED  |  NETWORK CLOSET ASSESSMENT',{x:0.3,y:7.12,w:13,h:0.28,fontSize:9,color:BRAND.white,fontFace:'Calibri'});
+    }
+
+    // ── Per floor / room ──
+    for(let fIdx=0;fIdx<exFloors.length;fIdx++){
+      const fe=exFloors[fIdx];
+      // Floor divider
+      spinMsg.textContent=`Floor ${fIdx+1}/${exFloors.length}: ${fe.floor.name}`;await new Promise(r=>setTimeout(r,10));
+      {
+        const slide=pres.addSlide();
+        slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:'100%',fill:{color:'3730A3'}});
+        slide.addText(`FLOOR ${fIdx+1}`,{x:0.6,y:2.5,w:12,h:0.5,fontSize:16,bold:true,color:'C7D2FE',fontFace:'Calibri'});
+        slide.addText(fe.floor.name,{x:0.6,y:3.0,w:12,h:1.0,fontSize:44,bold:true,color:BRAND.white,fontFace:'Calibri'});
+        slide.addText(`${fe.rooms.length} room${fe.rooms.length>1?'s':''}  ·  ${floorPct(fe.floor)}% average completion`,{x:0.6,y:4.15,w:12,h:0.5,fontSize:15,color:'C7D2FE',fontFace:'Calibri'});
+      }
+      for(let rIdx=0;rIdx<fe.rooms.length;rIdx++){
+        const room=fe.rooms[rIdx];
+        spinMsg.textContent=`${fe.floor.name} › ${room.name}`;await new Promise(r=>setTimeout(r,8));
+        // Room divider
+        {
+          const slide=pres.addSlide();
+          slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:'100%',fill:{color:BRAND.darkRed}});
+          slide.addText(`${fe.floor.name.toUpperCase()}  ·  ROOM ${rIdx+1}`,{x:0.6,y:2.7,w:12,h:0.5,fontSize:15,bold:true,color:'FFCCCC',fontFace:'Calibri'});
+          slide.addText(room.name,{x:0.6,y:3.2,w:12,h:0.9,fontSize:38,bold:true,color:BRAND.white,fontFace:'Calibri'});
+          if(room.loc)slide.addText(room.loc,{x:0.6,y:4.15,w:12,h:0.5,fontSize:15,color:'FFCCCC',fontFace:'Calibri'});
+          slide.addText(`${roomDone(room)} / ${total} items  ·  ${roomPct(room)}%  ·  ${roomPhotos(room)} photos`,{x:0.6,y:4.7,w:12,h:0.5,fontSize:14,color:BRAND.white,fontFace:'Calibri'});
+        }
+        // Section worksheets
+        for(let si=0;si<SECTIONS.length;si++){
+          const sec=SECTIONS[si];const slide=pres.addSlide();
+          slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:0.42,h:7.5,fill:{color:BRAND.darkRed}});
+          slide.addText(sec.title.toUpperCase(),{x:-2.6,y:3.3,w:7.5,h:0.42,fontSize:10,bold:true,color:BRAND.white,fontFace:'Calibri',rotate:270,align:'center'});
+          slide.addShape(pres.ShapeType.rect,{x:0.42,y:0,w:12.91,h:0.55,fill:{color:BRAND.darkRed}});
+          slide.addText('Risk Recommendation Worksheet',{x:0.55,y:0.06,w:7,h:0.42,fontSize:14,bold:true,color:BRAND.white,fontFace:'Calibri'});
+          slide.addText(`${fe.floor.name} › ${room.name}`,{x:7.6,y:0.1,w:5.6,h:0.35,fontSize:11,color:'FFCCCC',align:'right',fontFace:'Calibri'});
+          slide.addShape(pres.ShapeType.rect,{x:0.42,y:0.55,w:12.91,h:0.32,fill:{color:'C00000'}});
+          slide.addText('Risk Recommendation – Summary Definition',{x:0.55,y:0.58,w:12.5,h:0.26,fontSize:10,color:BRAND.white,fontFace:'Calibri'});
+          slide.addText(`${sec.icon}  Focus: ${sec.title}`,{x:0.55,y:0.95,w:9,h:0.32,fontSize:12,bold:true,color:BRAND.darkRed,fontFace:'Calibri'});
+          slide.addText(`${secDoneCount(room,sec)}/${sec.items.length} complete`,{x:9.8,y:0.97,w:3,h:0.28,fontSize:10,color:BRAND.darkGray,align:'right',fontFace:'Calibri'});
+          const cols=[{label:'Vulnerability / Identity',w:5.0},{label:'Risk',w:0.95},{label:'Status',w:0.95},{label:'Mitigation',w:2.2},{label:'Notes',w:3.3}];
+          const tblY=1.4;let cx=0.42;
+          cols.forEach(col=>{slide.addShape(pres.ShapeType.rect,{x:cx,y:tblY,w:col.w,h:0.32,fill:{color:BRAND.darkRed},line:{color:BRAND.white,width:0.5}});slide.addText(col.label,{x:cx+0.03,y:tblY+0.03,w:col.w-0.06,h:0.26,fontSize:8,bold:true,color:BRAND.white,fontFace:'Calibri',valign:'middle'});cx+=col.w;});
+          const nRows=Math.max(sec.items.length,1);const rowH=Math.max(Math.min((7.5-tblY-0.32-0.45)/nRows,0.52),0.24);
+          sec.items.forEach((item,i)=>{
+            const id=item.id,chk=!!room.checked[id],risk=room.risk[id]||'',note=(room.notes[id]||'').trim();
+            const y=tblY+0.32+i*rowH;if(y+rowH>7.05)return;
+            const bg=i%2===0?BRAND.white:'F5F5F5';let rx=0.42;
+            cols.forEach(col=>{slide.addShape(pres.ShapeType.rect,{x:rx,y,w:col.w,h:rowH,fill:{color:bg},line:{color:BRAND.midGray,width:0.3}});rx+=col.w;});
+            const fs=rowH>0.4?9:8;
+            slide.addText(item.t,{x:0.45,y:y+0.02,w:4.9,h:rowH-0.04,fontSize:fs,color:BRAND.black,fontFace:'Calibri',valign:'middle',wrap:true});
+            const rbg=risk==='H'?'FCCACA':risk==='M'?'FEF3C7':risk==='L'?'D1FAE5':'F2F2F2';
+            const rtx=risk==='H'?BRAND.riskHigh:risk==='M'?'B45309':risk==='L'?'065F46':BRAND.darkGray;
+            if(risk)slide.addShape(pres.ShapeType.rect,{x:5.48,y:y+0.04,w:0.82,h:rowH-0.08,fill:{color:rbg},line:{color:rtx,width:0.5}});
+            slide.addText(risk?{H:'HIGH',M:'MED',L:'LOW'}[risk]:'—',{x:5.42,y:y+0.02,w:0.95,h:rowH-0.04,fontSize:fs-1,bold:!!risk,color:rtx,align:'center',fontFace:'Calibri',valign:'middle'});
+            slide.addText(chk?'✓ Done':'○ Open',{x:6.37,y:y+0.02,w:0.95,h:rowH-0.04,fontSize:fs,color:chk?'065F46':BRAND.darkGray,bold:chk,align:'center',fontFace:'Calibri',valign:'middle'});
+            slide.addText(item.n||'',{x:7.32,y:y+0.02,w:2.14,h:rowH-0.04,fontSize:fs-1,color:BRAND.darkGray,fontFace:'Calibri',valign:'middle',wrap:true});
+            slide.addText(note||'',{x:9.52,y:y+0.02,w:3.24,h:rowH-0.04,fontSize:fs-1,color:BRAND.darkGray,fontFace:'Calibri',valign:'middle',wrap:true});
+          });
+          slide.addShape(pres.ShapeType.rect,{x:0,y:7.1,w:'100%',h:0.4,fill:{color:BRAND.darkRed}});
+          slide.addText(`EC-UNITED  |  ${fe.floor.name.toUpperCase()} › ${room.name.toUpperCase()}  |  ${sec.title.toUpperCase()}`,{x:0.3,y:7.12,w:13,h:0.28,fontSize:9,color:BRAND.white,fontFace:'Calibri'});
+        }
+        // Photo evidence
+        const pe=[];SECTIONS.forEach(sec=>{sec.items.forEach(item=>{(room.photos[item.id]||[]).forEach(d=>{pe.push({data:d,section:sec.title,icon:sec.icon,item:item.t});});});});
+        if(pe.length>0){
+          const perSlide=6,cols=3,colW=3.9,gap=0.35,startX=0.5,imgH=2.3,rowTop=[1.15,4.15];const nS=Math.ceil(pe.length/perSlide);
+          for(let s=0;s<nS;s++){
+            const slide=pres.addSlide();
+            slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:0.6,fill:{color:BRAND.darkRed}});
+            slide.addText(`Photo Evidence — ${room.name}`,{x:0.4,y:0.07,w:10,h:0.32,fontSize:17,bold:true,color:BRAND.white,fontFace:'Calibri'});
+            slide.addText(`${fe.floor.name}  ·  Page ${s+1} of ${nS}`,{x:9.5,y:0.12,w:3.8,h:0.3,fontSize:10,color:'FFCCCC',align:'right',fontFace:'Calibri'});
+            pe.slice(s*perSlide,s*perSlide+perSlide).forEach((p,bi)=>{
+              const c=bi%cols,r=Math.floor(bi/cols),x=startX+c*(colW+gap),y=rowTop[r];
+              slide.addShape(pres.ShapeType.rect,{x:x-0.03,y:y-0.03,w:colW+0.06,h:imgH+0.06,fill:{color:BRAND.lightGray},line:{color:BRAND.midGray,width:0.5}});
+              try{slide.addImage({data:p.data,x,y,w:colW,h:imgH,sizing:{type:'contain',w:colW,h:imgH}});}catch(e){}
+              slide.addText([{text:`${p.icon} ${p.section}\n`,options:{bold:true,color:BRAND.darkRed,fontSize:9}},{text:p.item,options:{color:BRAND.darkGray,fontSize:8}}],{x,y:y+imgH+0.05,w:colW,h:0.5,align:'center',valign:'top',fontFace:'Calibri',wrap:true});
+            });
+            slide.addShape(pres.ShapeType.rect,{x:0,y:7.1,w:'100%',h:0.4,fill:{color:BRAND.darkRed}});
+            slide.addText(`EC-UNITED  |  ${fe.floor.name.toUpperCase()} › ${room.name.toUpperCase()}  |  PHOTO EVIDENCE`,{x:0.3,y:7.12,w:13,h:0.28,fontSize:9,color:BRAND.white,fontFace:'Calibri'});
+          }
+        }
+      }
+    }
+
+    // ── Aggregate findings ──
+    spinMsg.textContent='Building findings summary…';await new Promise(r=>setTimeout(r,10));
+    {
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:0.6,fill:{color:BRAND.darkRed}});
+      slide.addText('Summary of Findings',{x:0.4,y:0.1,w:12,h:0.42,fontSize:20,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText(date,{x:11,y:0.15,w:2.3,h:0.3,fontSize:10,color:'FFCCCC',align:'right',fontFace:'Calibri'});
+      const high=[],med=[],open=[];
+      pairs.forEach(p=>{SECTIONS.forEach(sec=>{sec.items.forEach(item=>{
+        const loc=`${p.floor.name} › ${p.room.name}`;
+        const rk=p.room.risk[item.id];
+        if(rk==='H')high.push({loc,item:item.t});else if(rk==='M')med.push({loc,item:item.t});
+        if(!p.room.checked[item.id])open.push({loc,item:item.t});
+      });});});
+      const colW=4.1,gap=0.15;
+      const drawCol=(title,color,items,x)=>{
+        slide.addShape(pres.ShapeType.rect,{x,y:0.72,w:colW,h:0.34,fill:{color}});
+        slide.addText(title.toUpperCase(),{x:x+0.05,y:0.74,w:colW-0.1,h:0.3,fontSize:10,bold:true,color:BRAND.white,fontFace:'Calibri'});
+        const maxShow=Math.min(items.length,11);
+        items.slice(0,maxShow).forEach((it,i)=>{const ry=1.1+i*0.5;
+          slide.addShape(pres.ShapeType.rect,{x,y:ry,w:colW,h:0.46,fill:{color:i%2===0?BRAND.white:'F9F9F9'},line:{color:BRAND.midGray,width:0.3}});
+          slide.addText([{text:it.loc+': ',options:{bold:true,color:BRAND.darkRed}},{text:it.item,options:{color:BRAND.black}}],{x:x+0.05,y:ry+0.02,w:colW-0.1,h:0.42,fontSize:7.5,fontFace:'Calibri',valign:'middle',wrap:true});
+        });
+        if(items.length===0)slide.addText('None.',{x:x+0.05,y:1.15,w:colW-0.1,h:0.35,fontSize:9,color:BRAND.darkGray,fontFace:'Calibri'});
+        if(items.length>maxShow)slide.addText(`+${items.length-maxShow} more…`,{x:x+0.05,y:1.1+maxShow*0.5,w:colW-0.1,h:0.3,fontSize:8,italic:true,color,fontFace:'Calibri'});
+      };
+      drawCol(`High Risk (${high.length})`,BRAND.riskHigh,high,0.4);
+      drawCol(`Medium Risk (${med.length})`,'C57A00',med,0.4+colW+gap);
+      drawCol(`Open Items (${open.length})`,'1E3A5F',open,0.4+(colW+gap)*2);
+      slide.addShape(pres.ShapeType.rect,{x:0,y:7.1,w:'100%',h:0.4,fill:{color:BRAND.darkRed}});
+      slide.addText('EC-UNITED  |  SUMMARY OF FINDINGS',{x:0.3,y:7.12,w:13,h:0.28,fontSize:9,color:BRAND.white,fontFace:'Calibri'});
+    }
+
+    spinMsg.textContent='Saving file…';await new Promise(r=>setTimeout(r,20));
+    const tag=exportScope==='room'?curRoom().name:exportScope==='floor'?curFloor().name:'AllFloors';
+    const fn=`Network_Closet_Assessment_${tag.replace(/[^a-z0-9]+/gi,'_')}_${new Date().toISOString().slice(0,10)}.pptx`;
+    await pres.writeFile({fileName:fn});
+    spinner.classList.remove('show');showToast('PowerPoint exported ✓');
+  }catch(err){spinner.classList.remove('show');console.error('PPTX export error:',err);showToast('Export failed: '+(err&&err.message?err.message:'unknown'));}
+}
+
+// ── EXECUTIVE SUMMARY EXPORT ──
+async function exportExecutive(){
+  closeExportModal();
+  const spinner=document.getElementById('spinner'),spinMsg=document.getElementById('spinner-msg');
+  spinner.classList.add('show');spinMsg.textContent='Building executive summary…';
+  await new Promise(r=>setTimeout(r,50));
+  try{
+    const PptxLib=(typeof PptxGenJS!=='undefined')?PptxGenJS:(typeof pptxgen!=='undefined'?pptxgen:null);
+    if(!PptxLib){spinner.classList.remove('show');showToast('PowerPoint library not loaded — need internet on first export');return;}
+    const pres=new PptxLib();pres.layout='LAYOUT_WIDE';pres.author='Network Closet Assessment';pres.company='EC-United';
+    const date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    const pairs=pairsForExport();
+    const total=totalItems();
+    const exFloors=[];pairs.forEach(p=>{let fe=exFloors.find(x=>x.floor.id===p.floor.id);if(!fe){fe={floor:p.floor,rooms:[]};exFloors.push(fe);}fe.rooms.push(p.room);});
+
+    const footer=(slide,txt)=>{slide.addShape(pres.ShapeType.rect,{x:0,y:7.1,w:'100%',h:0.4,fill:{color:BRAND.darkRed}});slide.addText(txt,{x:0.3,y:7.12,w:13,h:0.28,fontSize:9,color:BRAND.white,fontFace:'Calibri'});};
+
+    // aggregate metrics
+    const aggDone=pairs.reduce((a,p)=>a+roomDone(p.room),0);
+    const aggTotal=total*pairs.length;
+    const aggPct=aggTotal?Math.round(aggDone/aggTotal*100):0;
+    const aggHigh=pairs.reduce((a,p)=>a+roomHigh(p.room),0);
+    const aggMed=pairs.reduce((a,p)=>a+roomMed(p.room),0);
+    const aggLow=pairs.reduce((a,p)=>a+roomLow(p.room),0);
+    const aggPhotos=pairs.reduce((a,p)=>a+roomPhotos(p.room),0);
+    const aggOpen=aggTotal-aggDone;
+
+    // ── Slide 1: Cover ──
+    {
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:'100%',fill:{color:BRAND.darkRed}});
+      slide.addShape(pres.ShapeType.rect,{x:0,y:2.7,w:'100%',h:0.04,fill:{color:'FFCCCC'}});
+      slide.addText('NETWORK CLOSET ASSESSMENT',{x:0.6,y:1.7,w:12,h:0.7,fontSize:34,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText('EXECUTIVE SUMMARY REPORT',{x:0.6,y:2.9,w:12,h:0.5,fontSize:20,bold:true,color:'FFCCCC',fontFace:'Calibri',charSpacing:3});
+      slide.addText(`${exFloors.length} floor${exFloors.length>1?'s':''}  ·  ${pairs.length} room${pairs.length>1?'s':''}  ·  ${date}`,{x:0.6,y:3.6,w:12,h:0.4,fontSize:14,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText('Prepared by EC-United  ·  Executive Consultants United',{x:0.6,y:6.5,w:12,h:0.4,fontSize:12,color:'FFCCCC',fontFace:'Calibri'});
+    }
+
+    // ── Slide 2: Executive Overview ──
+    {
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:0.6,fill:{color:BRAND.darkRed}});
+      slide.addText('Executive Overview',{x:0.4,y:0.1,w:10,h:0.42,fontSize:20,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText(date,{x:11,y:0.15,w:2.3,h:0.3,fontSize:10,color:'FFCCCC',align:'right',fontFace:'Calibri'});
+      // metric tiles
+      const tiles=[
+        {l:'Rooms Assessed',v:String(pairs.length),c:BRAND.darkRed},
+        {l:'Overall Completion',v:aggPct+'%',c:BRAND.darkRed},
+        {l:'High Risks',v:String(aggHigh),c:BRAND.riskHigh},
+        {l:'Medium Risks',v:String(aggMed),c:'C57A00'},
+        {l:'Open Items',v:String(aggOpen),c:'1E3A5F'},
+        {l:'Photos Captured',v:String(aggPhotos),c:'595959'},
+      ];
+      tiles.forEach((t,i)=>{const x=0.4+(i%3)*4.25, y=0.85+Math.floor(i/3)*1.35;
+        slide.addShape(pres.ShapeType.rect,{x,y,w:3.95,h:1.15,fill:{color:BRAND.lightGray},line:{color:BRAND.midGray,width:0.5}});
+        slide.addShape(pres.ShapeType.rect,{x,y,w:0.1,h:1.15,fill:{color:t.c}});
+        slide.addText(t.v,{x:x+0.2,y:y+0.12,w:3.6,h:0.6,fontSize:30,bold:true,color:t.c,fontFace:'Calibri'});
+        slide.addText(t.l,{x:x+0.2,y:y+0.78,w:3.6,h:0.3,fontSize:12,color:BRAND.darkGray,fontFace:'Calibri'});
+      });
+      // narrative
+      const topFloor=exFloors.slice().sort((a,b)=>b.rooms.reduce((s,r)=>s+roomHigh(r),0)-a.rooms.reduce((s,r)=>s+roomHigh(r),0))[0];
+      const riskWord=aggHigh>0?'requires prompt attention':aggMed>0?'is generally sound with some items to address':'is in good standing';
+      const narrative=`This assessment covered ${pairs.length} network closet${pairs.length>1?'s':''} across ${exFloors.length} floor${exFloors.length>1?'s':''}, reaching ${aggPct}% completion overall. `+
+        `A total of ${aggHigh} high-risk and ${aggMed} medium-risk findings were identified. The current state ${riskWord}.`+
+        (aggHigh>0&&topFloor?` The greatest concentration of high-risk findings is on ${topFloor.floor.name}.`:'');
+      slide.addShape(pres.ShapeType.rect,{x:0.4,y:3.75,w:12.53,h:0.34,fill:{color:'C00000'}});
+      slide.addText('SUMMARY',{x:0.5,y:3.78,w:6,h:0.3,fontSize:12,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText(narrative,{x:0.5,y:4.25,w:12.3,h:1.6,fontSize:14,color:BRAND.black,fontFace:'Calibri',valign:'top',lineSpacingMultiple:1.2});
+      footer(slide,'EC-UNITED  |  EXECUTIVE OVERVIEW');
+    }
+
+    // ── Slide 3: Risk Heat Map ──
+    {
+      spinMsg.textContent='Building risk heat map…';await new Promise(r=>setTimeout(r,10));
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:0.6,fill:{color:BRAND.darkRed}});
+      slide.addText('Risk Heat Map',{x:0.4,y:0.1,w:10,h:0.42,fontSize:20,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      slide.addText('Highest risk per area, by room',{x:8.6,y:0.18,w:4.6,h:0.3,fontSize:11,color:'FFCCCC',align:'right',fontFace:'Calibri'});
+      const labelW=3.4, gridX=labelW+0.4, gridW=12.93-gridX, colW=gridW/SECTIONS.length;
+      const headY=0.85, rowY0=1.45;
+      // column headers (section icons)
+      SECTIONS.forEach((sec,ci)=>{const x=gridX+ci*colW;
+        slide.addShape(pres.ShapeType.rect,{x,y:headY,w:colW,h:0.55,fill:{color:BRAND.darkRed},line:{color:BRAND.white,width:0.5}});
+        slide.addText(sec.icon,{x,y:headY+0.04,w:colW,h:0.3,fontSize:14,align:'center',fontFace:'Calibri'});
+        slide.addText(sec.title.split(' ')[0],{x,y:headY+0.33,w:colW,h:0.2,fontSize:6.5,color:BRAND.white,align:'center',fontFace:'Calibri'});
+      });
+      slide.addShape(pres.ShapeType.rect,{x:0.4,y:headY,w:labelW,h:0.55,fill:{color:BRAND.darkRed},line:{color:BRAND.white,width:0.5}});
+      slide.addText('ROOM',{x:0.5,y:headY+0.15,w:labelW-0.1,h:0.3,fontSize:11,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      const maxRows=Math.floor((7.0-rowY0)/0.46);
+      const rowH=Math.min(0.46,(7.0-rowY0)/Math.max(pairs.length,1));
+      pairs.slice(0,maxRows).forEach((p,ri)=>{const y=rowY0+ri*rowH;
+        slide.addShape(pres.ShapeType.rect,{x:0.4,y,w:labelW,h:rowH,fill:{color:ri%2===0?BRAND.white:'F5F5F5'},line:{color:BRAND.midGray,width:0.3}});
+        slide.addText(`${p.floor.name} › ${p.room.name}`,{x:0.5,y:y+0.02,w:labelW-0.15,h:rowH-0.04,fontSize:8,color:BRAND.black,fontFace:'Calibri',valign:'middle',wrap:true});
+        SECTIONS.forEach((sec,ci)=>{const x=gridX+ci*colW;
+          let worst='';sec.items.forEach(it=>{const rk=p.room.risk[it.id];if(rk==='H')worst='H';else if(rk==='M'&&worst!=='H')worst='M';else if(rk==='L'&&!worst)worst='L';});
+          const fill=worst==='H'?BRAND.riskHigh:worst==='M'?'FF8C00':worst==='L'?'00B050':'E8E8E8';
+          slide.addShape(pres.ShapeType.rect,{x,y,w:colW,h:rowH,fill:{color:fill},line:{color:BRAND.white,width:0.5}});
+        });
+      });
+      let legY=rowY0+Math.min(pairs.length,maxRows)*rowH+0.12;
+      if(legY>6.7)legY=6.7;
+      const leg=[['High Risk',BRAND.riskHigh],['Medium Risk','FF8C00'],['Low Risk','00B050'],['Not assessed / none','E8E8E8']];
+      let lx=0.4;leg.forEach(([t,c])=>{slide.addShape(pres.ShapeType.rect,{x:lx,y:legY,w:0.28,h:0.2,fill:{color:c},line:{color:BRAND.midGray,width:0.3}});slide.addText(t,{x:lx+0.34,y:legY-0.02,w:2.4,h:0.26,fontSize:9,color:BRAND.darkGray,fontFace:'Calibri',valign:'middle'});lx+=2.7;});
+      footer(slide,'EC-UNITED  |  RISK HEAT MAP');
+    }
+
+    // ── Slide 4: Top Priority Findings (High, then Medium) ──
+    {
+      spinMsg.textContent='Compiling top findings…';await new Promise(r=>setTimeout(r,10));
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:0.6,fill:{color:BRAND.darkRed}});
+      slide.addText('Top Priority Findings',{x:0.4,y:0.1,w:10,h:0.42,fontSize:20,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      const findings=[];
+      pairs.forEach(p=>SECTIONS.forEach(sec=>sec.items.forEach(it=>{
+        const rk=p.room.risk[it.id];
+        if(rk==='H'||rk==='M')findings.push({sev:rk,loc:`${p.floor.name} › ${p.room.name}`,area:sec.title,item:it.t,note:(p.room.notes[it.id]||'').trim()});
+      })));
+      findings.sort((a,b)=>(a.sev==='H'?0:1)-(b.sev==='H'?0:1));
+      const cols=[{l:'Sev',w:0.95},{l:'Location',w:3.0},{l:'Area',w:2.4},{l:'Finding',w:3.4},{l:'Observation',w:3.18}];
+      const tblY=0.8;let cx=0.4;
+      cols.forEach(c=>{slide.addShape(pres.ShapeType.rect,{x:cx,y:tblY,w:c.w,h:0.34,fill:{color:BRAND.darkRed},line:{color:BRAND.white,width:0.5}});slide.addText(c.l,{x:cx+0.05,y:tblY+0.04,w:c.w-0.08,h:0.26,fontSize:9,bold:true,color:BRAND.white,fontFace:'Calibri',valign:'middle'});cx+=c.w;});
+      const maxRows=12, rowH=0.46;
+      if(findings.length===0){slide.addText('No high- or medium-risk findings were recorded. ✓',{x:0.5,y:1.4,w:12,h:0.5,fontSize:14,color:'065F46',fontFace:'Calibri'});}
+      findings.slice(0,maxRows).forEach((f,i)=>{const y=tblY+0.34+i*rowH;let rx=0.4;
+        cols.forEach(c=>{slide.addShape(pres.ShapeType.rect,{x:rx,y,w:c.w,h:rowH,fill:{color:i%2===0?BRAND.white:'F5F5F5'},line:{color:BRAND.midGray,width:0.3}});rx+=c.w;});
+        const sevBg=f.sev==='H'?'FCCACA':'FEF3C7', sevTx=f.sev==='H'?BRAND.riskHigh:'B45309';
+        slide.addShape(pres.ShapeType.rect,{x:0.45,y:y+0.05,w:0.85,h:rowH-0.1,fill:{color:sevBg},line:{color:sevTx,width:0.5}});
+        slide.addText(f.sev==='H'?'HIGH':'MED',{x:0.4,y:y+0.02,w:0.95,h:rowH-0.04,fontSize:8,bold:true,color:sevTx,align:'center',fontFace:'Calibri',valign:'middle'});
+        slide.addText(f.loc,{x:1.4,y:y+0.02,w:2.9,h:rowH-0.04,fontSize:8,color:BRAND.black,fontFace:'Calibri',valign:'middle',wrap:true});
+        slide.addText(f.area,{x:4.4,y:y+0.02,w:2.3,h:rowH-0.04,fontSize:8,color:BRAND.darkGray,fontFace:'Calibri',valign:'middle',wrap:true});
+        slide.addText(f.item,{x:6.8,y:y+0.02,w:3.3,h:rowH-0.04,fontSize:8,color:BRAND.black,fontFace:'Calibri',valign:'middle',wrap:true});
+        slide.addText(f.note,{x:10.2,y:y+0.02,w:3.1,h:rowH-0.04,fontSize:8,color:BRAND.darkGray,fontFace:'Calibri',valign:'middle',wrap:true});
+      });
+      if(findings.length>maxRows)slide.addText(`+ ${findings.length-maxRows} additional finding(s) detailed in the full report.`,{x:0.4,y:tblY+0.34+maxRows*rowH+0.08,w:12,h:0.3,fontSize:10,italic:true,color:BRAND.darkGray,fontFace:'Calibri'});
+      footer(slide,'EC-UNITED  |  TOP PRIORITY FINDINGS');
+    }
+
+    // ── Slide 5: Recommendations & Next Steps ──
+    {
+      const slide=pres.addSlide();
+      slide.addShape(pres.ShapeType.rect,{x:0,y:0,w:'100%',h:0.6,fill:{color:BRAND.darkRed}});
+      slide.addText('Recommendations & Next Steps',{x:0.4,y:0.1,w:11,h:0.42,fontSize:20,bold:true,color:BRAND.white,fontFace:'Calibri'});
+      // section with most high risks
+      const secHigh={};SECTIONS.forEach(s=>secHigh[s.title]=0);
+      pairs.forEach(p=>SECTIONS.forEach(sec=>sec.items.forEach(it=>{if(p.room.risk[it.id]==='H')secHigh[sec.title]++;})));
+      const topSec=Object.entries(secHigh).sort((a,b)=>b[1]-a[1]).filter(e=>e[1]>0).slice(0,2).map(e=>e[0]);
+      const recs=[];
+      if(aggHigh>0)recs.push({t:`Immediately remediate the ${aggHigh} high-risk finding${aggHigh>1?'s':''}`,d:`Prioritize ${topSec.length?topSec.join(' and '):'the flagged areas'} where high risks are concentrated. Assign owners and target dates.`});
+      if(aggMed>0)recs.push({t:`Address ${aggMed} medium-risk finding${aggMed>1?'s':''} within 30–60 days`,d:'Fold these into the next maintenance window to prevent escalation to high risk.'});
+      if(aggOpen>0)recs.push({t:`Complete the ${aggOpen} outstanding checklist item${aggOpen>1?'s':''}`,d:`The assessment is currently ${aggPct}% complete; finishing the remaining walkthrough items will close coverage gaps.`});
+      recs.push({t:'Standardize documentation & labeling across all closets',d:'Ensure network diagrams, rack elevations, and cable labels are current and consistent floor-to-floor.'});
+      recs.push({t:'Establish a recurring assessment cadence',d:'Re-run this assessment quarterly to track remediation progress and catch new issues early.'});
+      let y=0.85;
+      recs.slice(0,5).forEach((rc,i)=>{
+        slide.addShape(pres.ShapeType.rect,{x:0.4,y,w:12.53,h:1.12,fill:{color:i%2===0?BRAND.white:'F7F7F7'},line:{color:BRAND.midGray,width:0.3}});
+        slide.addShape(pres.ShapeType.ellipse,{x:0.6,y:y+0.32,w:0.48,h:0.48,fill:{color:BRAND.darkRed}});
+        slide.addText(String(i+1),{x:0.6,y:y+0.34,w:0.48,h:0.44,fontSize:18,bold:true,color:BRAND.white,align:'center',fontFace:'Calibri',valign:'middle'});
+        slide.addText(rc.t,{x:1.3,y:y+0.12,w:11.4,h:0.4,fontSize:14,bold:true,color:BRAND.darkRed,fontFace:'Calibri'});
+        slide.addText(rc.d,{x:1.3,y:y+0.55,w:11.4,h:0.5,fontSize:11,color:BRAND.darkGray,fontFace:'Calibri',valign:'top'});
+        y+=1.2;
+      });
+      footer(slide,'EC-UNITED  |  RECOMMENDATIONS & NEXT STEPS');
+    }
+
+    spinMsg.textContent='Saving file…';await new Promise(r=>setTimeout(r,20));
+    const tag=exportScope==='room'?curRoom().name:exportScope==='floor'?curFloor().name:'AllFloors';
+    const fn=`Network_Closet_Executive_Summary_${tag.replace(/[^a-z0-9]+/gi,'_')}_${new Date().toISOString().slice(0,10)}.pptx`;
+    await pres.writeFile({fileName:fn});
+    spinner.classList.remove('show');showToast('Executive summary exported ✓');
+  }catch(err){spinner.classList.remove('show');console.error('Exec export error:',err);showToast('Export failed: '+(err&&err.message?err.message:'unknown'));}
+}
+
+function exportTXT(){
+  closeExportModal();
+  const pairs=pairsForExport(),total=totalItems();
+  const exFloors=[];pairs.forEach(p=>{let fe=exFloors.find(x=>x.floor.id===p.floor.id);if(!fe){fe={floor:p.floor,rooms:[]};exFloors.push(fe);}fe.rooms.push(p.room);});
+  const date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  let r=`NETWORK CLOSET ASSESSMENT REPORT\nGenerated: ${date}\nFloors: ${exFloors.length}  ·  Rooms: ${pairs.length}\n${'='.repeat(48)}\n`;
+  exFloors.forEach((fe,fi)=>{
+    r+=`\n${'#'.repeat(48)}\nFLOOR ${fi+1}: ${fe.floor.name}\n${'#'.repeat(48)}\n`;
+    fe.rooms.forEach((room,ri)=>{
+      r+=`\n  ${'─'.repeat(44)}\n  ROOM ${ri+1}: ${room.name}${room.loc?(' ('+room.loc+')'):''}\n  Progress: ${roomDone(room)}/${total} (${roomPct(room)}%)  ·  Photos: ${roomPhotos(room)}\n  ${'─'.repeat(44)}\n`;
+      SECTIONS.forEach(sec=>{
+        r+=`\n  ${sec.icon} ${sec.title.toUpperCase()} (${secDoneCount(room,sec)}/${sec.items.length})\n`;
+        sec.items.forEach(item=>{
+          const id=item.id,rk=room.risk[id]?` [${room.risk[id]==='H'?'HIGH':room.risk[id]==='M'?'MED':'LOW'}]`:'';
+          r+=`    ${room.checked[id]?'✓':'○'} ${item.t}${rk}\n`;
+          if((room.notes[id]||'').trim())r+=`       NOTE: ${room.notes[id].trim()}\n`;
+          if((room.photos[id]||[]).length)r+=`       PHOTOS: ${room.photos[id].length} attached\n`;
+        });
+      });
+    });
+  });
+  const blob=new Blob([r],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download='Network_Closet_Assessment_'+new Date().toISOString().slice(0,10)+'.txt';a.click();URL.revokeObjectURL(url);
+  showToast('Text report exported ✓');
+}
+
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ===== PERSISTENCE: autosave to device + save/load project file =====
+const STORAGE_KEY='ncaFloorsState_v1';
+let saveTimer=null;
+
+function serializeState(){
+  return {
+    v:1,
+    savedAt:new Date().toISOString(),
+    sections:SECTIONS,
+    floors:floors,
+    currentFloorId:currentFloorId,
+    currentRoomId:currentRoomId,
+  };
+}
+function applyState(st){
+  if(!st||!st.sections||!st.floors)return false;
+  SECTIONS=st.sections;
+  floors=st.floors;
+  currentFloorId=st.currentFloorId||(floors[0]&&floors[0].id);
+  // make sure current room is valid
+  const f=floors.find(x=>x.id===currentFloorId)||floors[0];
+  if(f){currentFloorId=f.id;const r=f.rooms.find(x=>x.id===st.currentRoomId)||f.rooms[0];currentRoomId=r?r.id:null;}
+  // reset transient UI maps for current sections
+  Object.keys(openSec).forEach(k=>delete openSec[k]);
+  SECTIONS.forEach(s=>{openSec[s.id]=false;});
+  return true;
+}
+
+function autosave(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeState()));
+    const dot=document.getElementById('save-dot');
+    if(dot){const t=new Date();dot.textContent='· saved '+t.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
+  }catch(e){
+    const dot=document.getElementById('save-dot');
+    if(dot){dot.textContent='· autosave full — use Save project';dot.style.color='var(--warn)';}
+  }
+}
+// debounce autosave so rapid edits don't thrash storage
+function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(autosave,600);}
+
+function tryRestore(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return false;
+    const st=JSON.parse(raw);
+    return applyState(st);
+  }catch(e){return false;}
+}
+
+// Project file: save
+function saveProjectFile(){
+  closeProjectModal();
+  try{
+    const data=JSON.stringify(serializeState());
+    const blob=new Blob([data],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().slice(0,16).replace(/[:T]/g,'-');
+    a.href=url;a.download='NetworkClosetAssessment_project_'+stamp+'.json';a.click();
+    URL.revokeObjectURL(url);
+    autosave();
+    showToast('Project saved — upload the .json to SharePoint');
+  }catch(e){showToast('Save failed: '+(e&&e.message?e.message:'unknown'));}
+}
+
+// Project file: load
+document.getElementById('project-load-input').addEventListener('change',function(){
+  const file=this.files&&this.files[0];this.value='';
+  if(!file)return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    try{
+      const st=JSON.parse(e.target.result);
+      if(applyState(st)){autosave();render();closeProjectModal();showToast('Project loaded'+(st.savedAt?(' (saved '+new Date(st.savedAt).toLocaleString()+')'):''));}
+      else showToast('That file is not a valid project file');
+    }catch(err){showToast('Could not read file: '+(err&&err.message?err.message:'invalid'));}
+  };
+  rd.readAsText(file);
+});
+
+function openProjectModal(){
+  // show last autosave time in the modal subtext
+  try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const st=JSON.parse(raw);const sub=document.getElementById('save-proj-sub');if(sub&&st.savedAt)sub.textContent='Last autosaved '+new Date(st.savedAt).toLocaleString();}}catch(e){}
+  document.getElementById('project-modal').classList.add('open');
+}
+function closeProjectModal(){document.getElementById('project-modal').classList.remove('open');}
+function resetRoomFromProject(){closeProjectModal();resetRoom();}
+
+// Wrap render so every UI change triggers an autosave
+const _render=render;
+render=function(){_render();scheduleSave();};
+// ===== END PERSISTENCE =====
+
+// Boot: restore prior work silently if present, else seed defaults
+if(tryRestore()){render();}
+else {initData();render();}
+</script>
+</body>
+</html>
